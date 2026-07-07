@@ -391,16 +391,7 @@ copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-```
 
-
-## 🙏 Acknowledgments
-
-- **MainCrafts Technology** for the internship opportunity and project guidance
-- **SQL Community** for extensive documentation and resources
-- **Open Source Contributors** who inspire continuous learning
-
----
 
 ## 📊 Project Statistics
 
