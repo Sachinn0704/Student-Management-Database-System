@@ -4,7 +4,7 @@ A SQL-based student management project that demonstrates relational database des
 
 ## Project Summary
 
-The database stores student information and subject scores and provides SQL queries for averages, rankings, grade distributions, demographic comparisons, and subject-level performance.
+The database stores student information and subject scores and supports both foundational SQL practice and portfolio-oriented performance analysis.
 
 ## Main Features
 
@@ -16,7 +16,11 @@ The database stores student information and subject scores and provides SQL quer
 - Grade-distribution analysis
 - Gender-based performance comparison
 - High-performing student filtering
-- SQL UPDATE operations
+- SQL `UPDATE` operations
+- Advanced ranking and window-function analysis
+- Performance quartiles
+- Student-vs-overall-average comparisons
+- Subject-level reporting summaries
 
 ## Database Schema
 
@@ -33,13 +37,25 @@ The primary `Students` table contains fields for:
 
 ## Analysis Workflow
 
-1. Create the `StudentManagement` database.
-2. Create the `Students` table with the required constraints.
-3. Insert the sample student records.
-4. Run data-retrieval and aggregation queries.
-5. Compare subject averages and student totals.
-6. Identify top performers and grade distributions.
-7. Apply data modifications where required.
+1. Create the `StudentManagement` database and `Students` table.
+2. Insert the sample student records.
+3. Run foundational retrieval and aggregation queries.
+4. Compare subject averages and student totals.
+5. Identify top performers and grade distributions.
+6. Run `advanced_analytics.sql` for ranking, quartile, comparison, and subject-summary analysis.
+7. Review the results as portfolio-style analytical outputs.
+
+## Advanced Analytics
+
+`advanced_analytics.sql` adds MySQL 8+ analytical patterns including:
+
+- `DENSE_RANK()` for overall student ranking
+- CTEs for reusable analytical steps
+- `AVG() OVER()`-style window analysis concepts
+- `NTILE(4)` for performance quartiles
+- Difference-from-average analysis
+- `CASE`-based strongest-subject classification
+- `UNION ALL` subject-level KPI reporting
 
 ## Example Queries
 
@@ -67,23 +83,23 @@ LIMIT 1;
 
 ### Requirements
 
-- MySQL or another compatible relational database
+- MySQL 8+ or another compatible relational database
 - MySQL Workbench, pgAdmin, or a SQL client
 
 ### Steps
 
 1. Open your SQL client.
-2. Run `student_management.sql`.
+2. Run the database/table setup script containing the `Students` table.
 3. Select the `StudentManagement` database.
-4. Execute individual analytical queries or the complete script.
-5. Review the generated results.
+4. Execute the foundational analysis queries.
+5. Run `advanced_analytics.sql` for the advanced reporting layer.
+6. Review the generated rankings, quartiles, comparisons, and subject KPIs.
 
 ## Project Structure
 
 ```text
 .
-├── student_management.sql
-├── analysis_report.md
+├── advanced_analytics.sql
 ├── README.md
 └── docs/
 ```
@@ -91,13 +107,15 @@ LIMIT 1;
 ## Skills Demonstrated
 
 - SQL database design
-- CREATE, INSERT, SELECT, UPDATE
-- WHERE and ORDER BY
-- Aggregate functions such as AVG, COUNT, MAX, and SUM
-- GROUP BY and filtering
-- Ranking and calculated fields
-- Relational data analysis
+- `CREATE`, `INSERT`, `SELECT`, `UPDATE`
+- `WHERE` and `ORDER BY`
+- Aggregate functions such as `AVG`, `COUNT`, `MAX`, and `SUM`
+- `GROUP BY` and filtering
+- Calculated fields and ranking
+- CTEs and window functions
+- `CASE` expressions
+- Portfolio-oriented relational data analysis
 
 ## Notes
 
-The README focuses on the database-analysis workflow and avoids hard-coded personal repository URLs so the project documentation remains reusable and maintainable.
+The advanced script is intentionally separated from the foundational database setup so learners can progress from basic SQL operations to analytical SQL patterns without changing the underlying student data model.
