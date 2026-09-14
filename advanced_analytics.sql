@@ -71,3 +71,34 @@ UNION ALL
 SELECT 'Science', ROUND(AVG(ScienceScore), 2), MAX(ScienceScore), MIN(ScienceScore) FROM Students
 UNION ALL
 SELECT 'English', ROUND(AVG(EnglishScore), 2), MAX(EnglishScore), MIN(EnglishScore) FROM Students;
+
+-- 7. Calculate each student's percentile position.
+-- PERCENT_RANK() shows the student's relative standing from 0 to 1.
+WITH student_scores AS (
+    SELECT
+        StudentID,
+        Name,
+        ROUND((MathScore + ScienceScore + EnglishScore) / 3.0, 2) AS AverageScore
+    FROM Students
+)
+SELECT
+    StudentID,
+    Name,
+    AverageScore,
+    ROUND(PERCENT_RANK() OVER (ORDER BY AverageScore), 2) AS PercentileRank
+FROM student_scores
+ORDER BY PercentileRank DESC, Name;
+
+-- 8. Produce a compact KPI summary for dashboard/reporting use.
+SELECT
+    COUNT(*) AS TotalStudents,
+    ROUND(AVG((MathScore + ScienceScore + EnglishScore) / 3.0), 2) AS OverallAverage,
+    ROUND(MAX((MathScore + ScienceScore + EnglishScore) / 3.0), 2) AS HighestAverage,
+    ROUND(MIN((MathScore + ScienceScore + EnglishScore) / 3.0), 2) AS LowestAverage,
+    SUM(
+        CASE
+            WHEN (MathScore + ScienceScore + EnglishScore) / 3.0 >= 75 THEN 1
+            ELSE 0
+        END
+    ) AS StudentsAbove75
+FROM Students;
