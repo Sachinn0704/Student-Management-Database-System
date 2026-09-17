@@ -102,3 +102,25 @@ SELECT
         END
     ) AS StudentsAbove75
 FROM Students;
+
+-- 9. Segment students into actionable performance bands.
+-- The labels can be used directly in dashboards or intervention reports.
+WITH student_scores AS (
+    SELECT
+        StudentID,
+        Name,
+        ROUND((MathScore + ScienceScore + EnglishScore) / 3.0, 2) AS AverageScore
+    FROM Students
+)
+SELECT
+    StudentID,
+    Name,
+    AverageScore,
+    CASE
+        WHEN AverageScore >= 85 THEN 'Excellent'
+        WHEN AverageScore >= 70 THEN 'Good'
+        WHEN AverageScore >= 50 THEN 'Needs Improvement'
+        ELSE 'At Risk'
+    END AS PerformanceBand
+FROM student_scores
+ORDER BY AverageScore DESC, Name;
