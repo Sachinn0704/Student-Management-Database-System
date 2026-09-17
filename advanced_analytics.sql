@@ -124,3 +124,22 @@ SELECT
     END AS PerformanceBand
 FROM student_scores
 ORDER BY AverageScore DESC, Name;
+
+-- 10. Measure score consistency across subjects.
+-- A smaller gap indicates a more balanced student profile.
+SELECT
+    StudentID,
+    Name,
+    GREATEST(MathScore, ScienceScore, EnglishScore) AS HighestSubjectScore,
+    LEAST(MathScore, ScienceScore, EnglishScore) AS LowestSubjectScore,
+    GREATEST(MathScore, ScienceScore, EnglishScore)
+        - LEAST(MathScore, ScienceScore, EnglishScore) AS SubjectScoreGap,
+    CASE
+        WHEN GREATEST(MathScore, ScienceScore, EnglishScore)
+             - LEAST(MathScore, ScienceScore, EnglishScore) <= 10 THEN 'Balanced'
+        WHEN GREATEST(MathScore, ScienceScore, EnglishScore)
+             - LEAST(MathScore, ScienceScore, EnglishScore) <= 25 THEN 'Moderate Variation'
+        ELSE 'High Variation'
+    END AS ScoreConsistency
+FROM Students
+ORDER BY SubjectScoreGap ASC, Name;
