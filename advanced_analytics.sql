@@ -143,3 +143,41 @@ SELECT
     END AS ScoreConsistency
 FROM Students
 ORDER BY SubjectScoreGap ASC, Name;
+
+-- 11. Identify students needing targeted intervention.
+-- Combines overall performance, weakest subject, and subject gap into one actionable view.
+WITH student_profiles AS (
+    SELECT
+        StudentID,
+        Name,
+        ROUND((MathScore + ScienceScore + EnglishScore) / 3.0, 2) AS AverageScore,
+        CASE
+            WHEN MathScore <= ScienceScore AND MathScore <= EnglishScore THEN 'Mathematics'
+            WHEN ScienceScore <= MathScore AND ScienceScore <= EnglishScore THEN 'Science'
+            ELSE 'English'
+        END AS WeakestSubject,
+        GREATEST(MathScore, ScienceScore, EnglishScore)
+            - LEAST(MathScore, ScienceScore, EnglishScore) AS SubjectScoreGap
+    FROM Students
+)
+SELECT
+    StudentID,
+    Name,
+    AverageScore,
+    WeakestSubject,
+    SubjectScoreGap,
+    CASE
+        WHEN AverageScore < 50 THEN 'High Priority'
+        WHEN AverageScore < 70 OR SubjectScoreGap > 25 THEN 'Medium Priority'
+        ELSE 'Monitor'
+    END AS InterventionPriority
+FROM student_profiles
+WHERE AverageScore < 70 OR SubjectScoreGap > 25
+ORDER BY
+    CASE
+        WHEN AverageScore < 50 THEN 1
+        WHEN AverageScore < 70 OR SubjectScoreGap > 25 THEN 2
+        ELSE 3
+    END,
+    AverageScore ASC,
+    Name;
