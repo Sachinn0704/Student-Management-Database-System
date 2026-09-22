@@ -181,3 +181,22 @@ ORDER BY
     END,
     AverageScore ASC,
     Name;
+
+-- 12. Quantify subject-level intervention coverage.
+-- Counts students whose score falls below the 50 or 70 threshold in each subject.
+WITH subject_scores AS (
+    SELECT StudentID, 'Mathematics' AS Subject, MathScore AS Score FROM Students
+    UNION ALL
+    SELECT StudentID, 'Science', ScienceScore FROM Students
+    UNION ALL
+    SELECT StudentID, 'English', EnglishScore FROM Students
+)
+SELECT
+    Subject,
+    COUNT(*) AS TotalStudents,
+    SUM(CASE WHEN Score < 50 THEN 1 ELSE 0 END) AS HighRiskStudents,
+    SUM(CASE WHEN Score >= 50 AND Score < 70 THEN 1 ELSE 0 END) AS NeedsImprovementStudents,
+    ROUND(100.0 * SUM(CASE WHEN Score < 70 THEN 1 ELSE 0 END) / COUNT(*), 2) AS Below70Percentage
+FROM subject_scores
+GROUP BY Subject
+ORDER BY Below70Percentage DESC, Subject;
