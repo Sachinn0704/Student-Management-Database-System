@@ -200,3 +200,21 @@ SELECT
 FROM subject_scores
 GROUP BY Subject
 ORDER BY Below70Percentage DESC, Subject;
+
+-- 13. Compare subject variability for curriculum-level reporting.
+-- Standard deviation highlights subjects where scores are more dispersed.
+SELECT
+    Subject,
+    COUNT(*) AS TotalStudents,
+    ROUND(AVG(Score), 2) AS AverageScore,
+    ROUND(STDDEV_SAMP(Score), 2) AS ScoreStdDev,
+    ROUND(MAX(Score) - MIN(Score), 2) AS ScoreRange
+FROM (
+    SELECT 'Mathematics' AS Subject, MathScore AS Score FROM Students
+    UNION ALL
+    SELECT 'Science', ScienceScore FROM Students
+    UNION ALL
+    SELECT 'English', EnglishScore FROM Students
+) AS subject_scores
+GROUP BY Subject
+ORDER BY ScoreStdDev DESC, Subject;
